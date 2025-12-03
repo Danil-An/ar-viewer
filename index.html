@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Viewer AR Шаблон</title>
+
+    <style>
+        /* Базовые стили для центрирования и установки размера */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin: 20px 0;
+        }
+        /* Обязательно задайте размеры для model-viewer, иначе он будет 0x0 */
+        model-viewer {
+            width: 90%; 
+            max-width: 800px;
+            height: 500px; 
+            background-color: #fff;
+            border-radius: 10px;
+            margin: 20px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Просмотр модели в AR</h1>
+    
+	<button id="load-model-btn" style="padding: 15px 30px; font-size: 18px; cursor: pointer;">
+    Показать 3D-просмотр
+</button>
+
+<div id="model-viewer-container">
+    </div>
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+	
+
+    <p>Нажмите на 3D-модель, чтобы вращать ее, или кнопку "Посмотреть в AR" на мобильном устройстве.</p>
+
+	<script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const loadButton = document.getElementById('load-model-btn');
+        const container = document.getElementById('model-viewer-container');
+
+        loadButton.addEventListener('click', () => {
+            // 1. Создаем HTML-код для model-viewer
+            const modelViewerHtml = `
+                <model-viewer
+                    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                    ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+					ar-scale="fixed"
+                    camera-controls
+					alt="A 3D model of an astronaut"
+                    shadow-intensity="1"
+                    style="width: 100%; height: 500px;"
+                    alt="Интерактивная 3D модель">
+                    
+                    <button slot="ar-button" style="background-color: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Посмотреть в AR
+                    </button>
+                </model-viewer>
+            `;
+
+            // 2. Вставляем код в контейнер
+            container.innerHTML = modelViewerHtml;
+
+            // 3. (Опционально) Удаляем или скрываем кнопку
+            loadButton.style.display = 'none';
+
+            // 4. (Опционально) Можно добавить прокрутку к модели
+            //container.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+    </script>
+</body>
+</html>
